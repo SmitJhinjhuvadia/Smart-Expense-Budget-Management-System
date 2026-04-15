@@ -29,7 +29,7 @@ export default function Dashboard() {
 
   const { totalExpenses, totalBudget, remaining, percentUsed, byCategory, topCategories, dailyTrend, categoryStatus } = analytics;
 
-  const pieData = Object.entries(byCategory).map(([name, value], i) => ({ name, value, color: COLORS[i % COLORS.length] }));
+  const pieData = Object.entries(byCategory || {}).map(([name, value], i) => ({ name, value, color: COLORS[i % COLORS.length] }));
   const barData = categoryStatus?.slice(0, 6).map(c => ({ name: c.category.slice(0,5), spent: c.spent, budget: c.budget })) || [];
 
   const alerts = categoryStatus?.filter(c => c.percentUsed > 90) || [];
