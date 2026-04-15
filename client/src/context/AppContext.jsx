@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+const API = "https://smart-expense-budget-management-system.onrender.com";
+
 const AppContext = createContext();
 
 const CATEGORIES = ['Food', 'Transport', 'Rent', 'Entertainment', 'Shopping', 'Health', 'Utilities', 'Education', 'Travel', 'Other'];
@@ -14,7 +16,11 @@ const CAT_COLORS = {
 // Helper: get auth headers using token from localStorage
 const authHeaders = () => {
   const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
 };
 
 export function AppProvider({ children }) {
@@ -33,9 +39,9 @@ export function AppProvider({ children }) {
 
   const fetchExpenses = useCallback(async () => {
     try {
-      const { data } = await axios.get('/api/expenses', {
+      const { data } = await axios.get(`${API}/api/expenses`, {
         params: { month: filterMonth, year: filterYear, category: filterCategory, search },
-        headers: authHeaders()
+        ...authHeaders()
       });
       setExpenses(data);
     } catch { toast.error('Failed to load expenses'); }
@@ -43,9 +49,9 @@ export function AppProvider({ children }) {
 
   const fetchAnalytics = useCallback(async () => {
     try {
-      const { data } = await axios.get('/api/analytics', {
+      const { data } = await axios.get(`${API}/api/analytics`, {
         params: { month: filterMonth, year: filterYear },
-        headers: authHeaders()
+        ...authHeaders()
       });
       setAnalytics(data);
     } catch { console.error('Analytics fetch failed'); }
@@ -53,28 +59,28 @@ export function AppProvider({ children }) {
 
   const fetchBudgets = async () => {
     try {
-      const { data } = await axios.get('/api/budgets', { headers: authHeaders() });
+      const { data } = await axios.get(`${API}/api/budgets`, { ...authHeaders() });
       setBudgets(data);
     } catch {}
   };
 
   const fetchGoals = async () => {
     try {
-      const { data } = await axios.get('/api/goals', { headers: authHeaders() });
+      const { data } = await axios.get(`${API}/api/goals`, { ...authHeaders() });
       setGoals(data);
     } catch {}
   };
 
   const fetchRecurring = async () => {
     try {
-      const { data } = await axios.get('/api/recurring', { headers: authHeaders() });
+      const { data } = await axios.get(`${API}/api/recurring`, { ...authHeaders() });
       setRecurring(data);
     } catch {}
   };
 
   const fetchSummary = async () => {
     try {
-      const { data } = await axios.get('/api/summary', { headers: authHeaders() });
+      const { data } = await axios.get(`${API}/api/summary`, { ...authHeaders() });
       setSummary(data);
     } catch {}
   };
@@ -89,7 +95,7 @@ export function AppProvider({ children }) {
 
   const addExpense = async (data) => {
     try {
-      await axios.post('/api/expenses', data, { headers: authHeaders() });
+      await axios.post(`${API}/api/expenses`, data, { ...authHeaders() });
       toast.success('Expense added!');
       await fetchExpenses();
       await fetchAnalytics();
@@ -100,7 +106,7 @@ export function AppProvider({ children }) {
 
   const updateExpense = async (id, data) => {
     try {
-      await axios.put(`/api/expenses/${id}`, data, { headers: authHeaders() });
+      await axios.put(`${API}/api/expenses/${id}`, data, { ...authHeaders() });
       toast.success('Expense updated!');
       await fetchExpenses();
       await fetchAnalytics();
@@ -110,7 +116,7 @@ export function AppProvider({ children }) {
 
   const deleteExpense = async (id) => {
     try {
-      await axios.delete(`/api/expenses/${id}`, { headers: authHeaders() });
+      await axios.delete(`${API}/api/expenses/${id}`, { ...authHeaders() });
       toast.success('Expense deleted');
       await fetchExpenses();
       await fetchAnalytics();
@@ -120,7 +126,7 @@ export function AppProvider({ children }) {
 
   const updateBudgets = async (data) => {
     try {
-      const { data: updated } = await axios.put('/api/budgets', data, { headers: authHeaders() });
+      const { data: updated } = await axios.put(`${API}/api/budgets`, data, { ...authHeaders() });
       setBudgets(updated);
       toast.success('Budget updated!');
       await fetchAnalytics();
@@ -130,7 +136,7 @@ export function AppProvider({ children }) {
 
   const addGoal = async (data) => {
     try {
-      await axios.post('/api/goals', data, { headers: authHeaders() });
+      await axios.post(`${API}/api/goals`, data, { ...authHeaders() });
       await fetchGoals();
       toast.success('Savings goal created!');
       return true;
@@ -139,7 +145,7 @@ export function AppProvider({ children }) {
 
   const updateGoal = async (id, data) => {
     try {
-      await axios.put(`/api/goals/${id}`, data, { headers: authHeaders() });
+      await axios.put(`${API}/api/goals/${id}`, data, { ...authHeaders() });
       await fetchGoals();
       toast.success('Goal updated!');
       return true;
@@ -148,7 +154,7 @@ export function AppProvider({ children }) {
 
   const deleteGoal = async (id) => {
     try {
-      await axios.delete(`/api/goals/${id}`, { headers: authHeaders() });
+      await axios.delete(`${API}/api/goals/${id}`, { ...authHeaders() });
       await fetchGoals();
       toast.success('Goal removed');
     } catch { toast.error('Failed to remove goal'); }
@@ -156,7 +162,7 @@ export function AppProvider({ children }) {
 
   const addRecurring = async (data) => {
     try {
-      await axios.post('/api/recurring', data, { headers: authHeaders() });
+      await axios.post(`${API}/api/recurring`, data, { ...authHeaders() });
       await fetchRecurring();
       toast.success('Recurring expense added!');
       return true;
@@ -165,7 +171,7 @@ export function AppProvider({ children }) {
 
   const deleteRecurring = async (id) => {
     try {
-      await axios.delete(`/api/recurring/${id}`, { headers: authHeaders() });
+      await axios.delete(`${API}/api/recurring/${id}`, { ...authHeaders() });
       await fetchRecurring();
       toast.success('Recurring expense removed');
     } catch {}
