@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+const API = "https://smart-expense-budget-management-system.onrender.com";
 
 export default function LoginPage({ onLogin }) {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
@@ -17,14 +18,14 @@ export default function LoginPage({ onLogin }) {
       if (mode === 'signup') {
         if (!name || !email || !password)
           return setError('All fields are required');
-        const res = await axios.post('/api/auth/register', { name, email, password });
+        const res = await axios.post(`${API}/api/auth/register`, { name, email, password });
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         onLogin(res.data.user);
       } else {
         if (!email || !password)
           return setError('Email and password are required');
-        const res = await axios.post('/api/auth/login', { email, password });
+        const res = await axios.post(`${API}/api/auth/login`, { email, password });
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         onLogin(res.data.user);
@@ -40,7 +41,7 @@ export default function LoginPage({ onLogin }) {
     setLoading(true);
     try {
       const guestEmail = `guest_${Date.now()}@guest.com`;
-      const res = await axios.post('/api/auth/register', {
+      const res = await axios.post(`${API}/api/auth/register`, {
         name: 'Guest User',
         email: guestEmail,
         password: 'guest1234'
