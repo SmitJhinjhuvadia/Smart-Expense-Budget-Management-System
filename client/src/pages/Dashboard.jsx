@@ -223,7 +223,7 @@ export default function Dashboard() {
       </div>
 
       {/* Savings Goals Quick View */}
-      {goals.length > 0 && (
+      {Array.isArray(goals) && goals.length > 0 && (
         <div style={{ marginTop: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600 }}>Savings Goals</h3>
@@ -232,7 +232,7 @@ export default function Dashboard() {
             </button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-            {goals.slice(0, 3).map(goal => {
+            {(goals || []).slice(0, 3).map(goal => {
               const pct = Math.min(Math.round((goal.current / goal.target) * 100), 100);
               return (
                 <div key={goal.id} className="card" style={{ padding: 20 }}>
