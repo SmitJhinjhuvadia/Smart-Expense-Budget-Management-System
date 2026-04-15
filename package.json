@@ -1,0 +1,15 @@
+{
+  "name": "smart-expense-budget-system",
+  "version": "1.0.0",
+  "description": "Smart Expense & Budget Management System",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
