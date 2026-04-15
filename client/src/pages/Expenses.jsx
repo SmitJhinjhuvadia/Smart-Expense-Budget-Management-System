@@ -97,7 +97,7 @@ export default function Expenses() {
                   </td>
                 </tr>
               ) : sorted.map(exp => (
-                <tr key={exp.id}>
+                <tr key={exp._id}>
                   <td style={{ color: 'var(--text-muted)', fontSize: 13, fontFamily: 'var(--font-mono)' }}>
                     {formatDate(exp.date)}
                   </td>
@@ -118,7 +118,7 @@ export default function Expenses() {
                       <button className="btn btn-ghost btn-icon btn-sm" onClick={() => handleEdit(exp)} title="Edit">
                         <Pencil size={14} />
                       </button>
-                      <button className="btn btn-danger btn-icon btn-sm" onClick={() => setConfirmDelete(exp.id)} title="Delete">
+                      <button className="btn btn-danger btn-icon btn-sm" onClick={() => setConfirmDelete(exp._id)} title="Delete">
                         <Trash2 size={14} />
                       </button>
                     </div>

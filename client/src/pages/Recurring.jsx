@@ -135,7 +135,7 @@ export default function Recurring() {
             const isOverdue = daysUntil !== null && daysUntil < 0;
 
             return (
-              <div key={r.id} className="card" style={{
+              <div key={r._id} className="card" style={{
                 padding: 20,
                 borderColor: isOverdue ? 'rgba(248,113,113,0.3)' : isDueSoon ? 'rgba(251,191,36,0.3)' : 'var(--border)'
               }}>
@@ -149,7 +149,7 @@ export default function Recurring() {
                       <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{r.category}</div>
                     </div>
                   </div>
-                  <button className="btn btn-danger btn-icon btn-sm" onClick={() => deleteRecurring(r.id)}><Trash2 size={13} /></button>
+                  <button className="btn btn-danger btn-icon btn-sm" onClick={() => deleteRecurring(r._id)}><Trash2 size={13} /></button>
                 </div>
 
                 <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

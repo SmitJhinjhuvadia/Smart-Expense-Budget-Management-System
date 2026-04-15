@@ -126,12 +126,21 @@ export function AppProvider({ children }) {
 
   const updateBudgets = async (data) => {
     try {
-      const { data: updated } = await axios.put(`${API}/api/budgets`, data, { ...authHeaders() });
+      const { data: updated } = await axios.put(
+        `${API}/api/budgets`,
+        data,
+        {  ...authHeaders() }   // ✅ FIX HERE
+      );
+
       setBudgets(updated);
       toast.success('Budget updated!');
       await fetchAnalytics();
       return true;
-    } catch { toast.error('Failed to update budget'); return false; }
+
+    } catch {
+      toast.error('Failed to update budget');
+      return false;
+    }
   };
 
   const addGoal = async (data) => {

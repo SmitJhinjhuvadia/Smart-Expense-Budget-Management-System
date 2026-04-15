@@ -30,7 +30,7 @@ export default function ExpenseModal({ expense, onClose }) {
     if (!form.amount || parseFloat(form.amount) <= 0) return;
     setLoading(true);
     const ok = expense
-      ? await updateExpense(expense.id, form)
+      ? await updateExpense(expense._id, form)
       : await addExpense(form);
     setLoading(false);
     if (ok) onClose();

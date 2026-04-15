@@ -15,7 +15,7 @@ function GoalModal({ goal, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const ok = goal ? await updateGoal(goal.id, { ...form, target: parseFloat(form.target), current: parseFloat(form.current) })
+    const ok = goal ? await updateGoal(goal._id, { ...form, target: parseFloat(form.target), current: parseFloat(form.current) })
       : await addGoal({ ...form, target: parseFloat(form.target), current: parseFloat(form.current) });
     setLoading(false);
     if (ok) onClose();
@@ -78,7 +78,7 @@ function ContributeModal({ goal, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await updateGoal(goal.id, { current: goal.current + parseFloat(amount) });
+    await updateGoal(goal._id, { current: goal.current + parseFloat(amount) });
     setLoading(false);
     onClose();
   };
@@ -153,7 +153,7 @@ export default function Goals() {
             const completed = pct >= 100;
 
             return (
-              <div key={goal.id} className="card" style={{ padding: 24, borderColor: completed ? 'rgba(52,211,153,0.3)' : 'var(--border)', position: 'relative', overflow: 'hidden' }}>
+              <div key={goal._id} className="card" style={{ padding: 24, borderColor: completed ? 'rgba(52,211,153,0.3)' : 'var(--border)', position: 'relative', overflow: 'hidden' }}>
                 {completed && (
                   <div style={{ position: 'absolute', top: 12, right: 48, background: 'var(--green-dim)', color: 'var(--green)', fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 99 }}>
                     ✓ COMPLETE
@@ -175,7 +175,7 @@ export default function Goals() {
                   </div>
                   <div style={{ display: 'flex', gap: 4 }}>
                     <button className="btn btn-ghost btn-icon btn-sm" onClick={() => { setEditGoal(goal); setShowModal(true); }}><Pencil size={13} /></button>
-                    <button className="btn btn-danger btn-icon btn-sm" onClick={() => deleteGoal(goal.id)}><Trash2 size={13} /></button>
+                    <button className="btn btn-danger btn-icon btn-sm" onClick={() => deleteGoal(goal._id)}><Trash2 size={13} /></button>
                   </div>
                 </div>
 
